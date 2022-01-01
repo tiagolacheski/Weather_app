@@ -1,0 +1,44 @@
+@import url('./bootstrap.min.css');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;600;700;800;900&display=swap');
+
+body{
+    font-family: 'Open Sans', sans-serif;
+}
+
+h1,h2,h3,h4,h5,h6,p,a,span{
+    font-family: 'Open Sans', sans-serif;
+}
+
+.custom-grid{
+    display: grid;
+    grid-template-columns: auto auto auto;
+    text-align: center;
+}
+
+.input-group .form-control:focus {
+    /* border: none; */
+    box-shadow: none;
+}
+
+.btn:focus{
+    transform: scale(.95);
+}
+
+.btn-primary:focus, .btn:focus{
+    box-shadow: none;
+    border: none;
+}
+
+.error{
+    color: red;
+}
+
+.c-code{
+    font-family: 'Inconsolata', monospace;
+    font-weight: 600;
+    font-size: large;
+    color: white;
+    background-color: var(--bs-primary);
+}

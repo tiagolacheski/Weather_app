@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather Application</title>
+    <link rel="stylesheet" href="../css/style.css" />
+  </head>
+  <body>
+    <main>
+      <section class="section py-5">
+        <div class="container">
+          <div class="row">
+            <div class="col-12">
+              <h2>Weather Application - API Endpoints</h2>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <ul>
+                <li>
+                  <strong>GET /weather/:city - </strong>
+                </li>
+                <li><strong>Params:</strong> 'city' - eg. Pune, Mumbai</li>
+              </ul>
+              <h5 class="mt-3" style="font-weight: 800;">Output</h5>
+              <div class="c-code">
+                <pre>
+                    {
+                        "status": 200,
+                        "error": false,
+                        "data": {
+                            "coord": {
+                                "lon": 73.8553,
+                                "lat": 18.5196
+                            },
+                            "weather": [
+                                {
+                                    "id": 800,
+                                    "main": "Clear",
+                                    "description": "clear sky",
+                                    "icon": "01d"
+                                }
+                            ],
+                            "base": "stations",
+                            "main": {
+                                "temp": 297.63,
+                                "feels_like": 297.26,
+                                "temp_min": 297.63,
+                                "temp_max": 297.63,
+                                "pressure": 1015,
+                                "humidity": 43,
+                                "sea_level": 1015,
+                                "grnd_level": 953
+                            },
+                            "visibility": 10000,
+                            "wind": {
+                                "speed": 2,
+                                "deg": 55,
+                                "gust": 2.21
+                            },
+                            "clouds": {
+                                "all": 6
+                            },
+                            "dt": 1641040227,
+                            "sys": {
+                                "country": "IN",
+                                "sunrise": 1641001003,
+                                "sunset": 1641040736
+                            },
+                            "timezone": 19800,
+                            "id": 1259229,
+                            "name": "Pune",
+                            "cod": 200
+                        }
+                    }
+                    </pre
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
