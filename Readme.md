@@ -16,11 +16,11 @@ Clone the repository on your machine (Desktop/Laptop) using following command
 > #### Step 2
 run `npm install`
 
-> ### step 3
+> #### Step 3
 copy .env.expample file to .env and add `API_KEY` value with your API key. To get API key visit [Open Weather Map API](https://openweathermap.org/api) link.
 
-> ### Step 4
-run `npm start` after run it you can visit the link [http://localhost:3000](http://localhost:3000) for frontend. For API's visit the link [http://localhost:3000/doc](http://localhost:3000/doc)
+> #### Step 4
+run `npm start`. After running this command you can visit the link [http://localhost:3000](http://localhost:3000) for frontend. For API's visit the link [http://localhost:3000/doc](http://localhost:3000/doc)
 
 #### Why used Nodejs if we can call the api from JavaScript frontend?
 To hide the API Key and url of openweathermap. This is a best example of Opps concept, Abstraction.
