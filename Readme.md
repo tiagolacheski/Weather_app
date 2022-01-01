@@ -10,7 +10,7 @@ Weather app is created using Node.js, Express.js framework to create the API's. 
 
 ### Steps to Run
 > #### Step 1
-Clone the repository on your machine (Desktop/Laptop) using following command
+Clone the repository on your machine (Desktop/Laptop) using following command<br>
 `git clone https://github.com/abhishekdhapare9392/weather-app-node-js.git`
 
 > #### Step 2
