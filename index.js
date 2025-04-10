@@ -6,7 +6,8 @@ const app = express();
 
 app.use(express.static("./public"));
 const api_key = process.env.API_KEY;
-
+// ...
+`http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${api_key}`
 app.use(express.json());
 
 app.get("/api/v1/weather/:city", async (req, res) => {
