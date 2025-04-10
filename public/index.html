@@ -1,45 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Weather Application</title>
-    <link rel="stylesheet" href="./css/style.css" />
-  </head>
-  <body>
-    <main>
-      <section class="section py-3">
-        <div class="container">
-          <div class="row">
-            <div class="col-12 text-center">
-              <h1>Weather Application</h1>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Real-time weather information for any city worldwide">
+  <title>Weather Forecast App | Get Accurate Weather Data</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" href="./assets/favicon.ico" type="image/x-icon">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+  <div class="weather-app">
+    <header class="app-header">
+      <h1 class="app-title">
+        <i class="fas fa-cloud-sun"></i> Weather Forecast
+      </h1>
+      <p class="app-subtitle">Get real-time weather updates for any location</p>
+    </header>
+
+    <main class="app-main">
+      <section class="search-section">
+        <div class="search-container">
+          <form id="weather-form" class="weather-form">
+            <div class="input-group">
+              <input 
+                type="text" 
+                id="city-input" 
+                class="city-input" 
+                placeholder="Enter city name (e.g. London, New York)" 
+                aria-label="City name"
+                required
+              >
+              <button type="submit" class="search-button" aria-label="Search weather">
+                <i class="fas fa-search"></i> Search
+              </button>
             </div>
-          </div>
-          <div class="row">
-            <div class="col-8 mx-auto">
-              <div class="form-group">
-                <div class="input-group">
-                  <input
-                    type="text"
-                    name="city"
-                    id="city"
-                    class="form-control"
-                    placeholder="Enter the city name..."
-                  />
-                  <button class="btn btn-primary" id="submit-city">
-                    <i class="fa fa-search"></i>&nbsp;Search
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row my-3">
-            <div class="col-8 mx-auto" id="weather-details-container"></div>
-          </div>
+          </form>
         </div>
       </section>
+
+      <section class="weather-section">
+        <div id="weather-container" class="weather-container">
+          <div class="weather-placeholder">
+            <i class="fas fa-city"></i>
+            <p>Enter a city name to get weather information</p>
+          </div>
+        </div>
+        
+        <div id="error-container" class="error-container" hidden></div>
+      </section>
+
+      <section class="recent-searches" hidden>
+        <h2>Recent Searches</h2>
+        <ul id="recent-list" class="recent-list"></ul>
+      </section>
     </main>
-    <script src="./js/script.js"></script>
-  </body>
+
+    <footer class="app-footer">
+      <p>Weather data provided by <a href="https://openweathermap.org" target="_blank">OpenWeatherMap</a></p>
+      <p class="copyright">&copy; <span id="year"></span> Weather Forecast App</p>
+    </footer>
+  </div>
+
+  <!-- JavaScript -->
+  <script src="./js/script.js"></script>
+  <script>
+    // Set current year in footer
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
 </html>
