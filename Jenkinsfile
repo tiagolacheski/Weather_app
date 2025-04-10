@@ -8,7 +8,7 @@ pipeline {
                 script {
                     def startTime = System.currentTimeMillis()
                     echo "Cloning the code from Git repository"
-                    git url: "https://github.com/HassanAmohamed/GitOps-CI-CD-with-Jenkins-and-ArgoCD.git", branch: "master"
+                    git url: "https://github.com/HassanAmohamed/weather-argocd-jenkins.git", branch: "master"
                     echo "Successfully cloned the code From Your Git-Hub account"
                     def duration = (System.currentTimeMillis() - startTime) / 1000
                     echo "Time taken for Clone Code: ${duration} seconds"
