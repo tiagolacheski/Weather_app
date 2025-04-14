@@ -12,35 +12,31 @@ jobs:
     strategy:
       matrix:
         node-version: [18.x, 20.x, 22.x]
-      # Continue testing other versions if one fails
       fail-fast: false
 
     steps:
     - uses: actions/checkout@v4
-      with:
-        # Fetch full history to ensure proper version comparison
-        fetch-depth: 0
+
+    - name: Verify Node.js and npm versions
+      run: |
+        echo "Using Node.js $(node --version)"
+        echo "Using npm $(npm --version)"
 
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-        # Always check for latest npm version
         cache-dependency-path: package-lock.json
 
-    - name: Verify lock file exists
-      run: |
-        if [ ! -f package-lock.json ]; then
-          echo "Generating package-lock.json..."
-          npm install --package-lock-only
-        fi
-
     - name: Install dependencies
-      run: npm ci --no-audit --prefer-offline
-      env:
-        # Skip unnecessary post-install scripts
-        NODE_ENV: development
+      run: |
+        if [ -f package-lock.json ]; then
+          npm ci --no-audit
+        else
+          npm install
+          git add package-lock.json
+        fi
 
     - name: Build project
       run: npm run build --if-present
