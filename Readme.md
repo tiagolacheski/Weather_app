@@ -2,6 +2,8 @@
 #### Description: 
 Weather app is created using Node.js, Express.js framework to create the API's. To fetch weather details we used [https://openweathermap.org/api](https://openweathermap.org/api).
 
+
+
 >   ### Technologies
 >
 >   1. <strong>Backend:</strong> Node.js, ExpressJs (Framework) 
