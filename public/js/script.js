@@ -1,102 +1,161 @@
-const city = document.getElementById("city")
-const submitBtn = document.getElementById("submit-city")
-const renderDetails = document.getElementById("weather-details-container")
-const months = [
-  "Jan",
-  "Feb",
-  "Mar",
-  "Apr",
-  "May",
-  "June",
-  "July",
-  "Aug",
-  "Sept",
-  "Oct",
-  "Nov",
-  "Dec",
-]
+document.addEventListener('DOMContentLoaded', () => {
+  // DOM Elements
+  const weatherForm = document.getElementById('weather-form');
+  const cityInput = document.getElementById('city-input');
+  const weatherContainer = document.getElementById('weather-container');
+  const errorContainer = document.getElementById('error-container');
+  const recentList = document.getElementById('recent-list');
 
-const iconUrl = "http://openweathermap.org/img/wn/"
+  // Constants
+  const ICON_URL = 'https://openweathermap.org/img/wn/';
+  const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const RECENT_SEARCHES_KEY = 'weatherAppRecentSearches';
+  const MAX_RECENT_SEARCHES = 5;
 
-submitBtn.addEventListener("click", async () => {
-  console.log(city.value)
-  const cityName = city.value
+  // Event Listeners
+  weatherForm.addEventListener('submit', handleFormSubmit);
 
-  const res = await fetch(`/api/v1/weather/${cityName}`)
+  // Functions
+  async function handleFormSubmit(e) {
+    e.preventDefault();
+    const cityName = cityInput.value.trim();
+    
+    if (!cityName) {
+      showError('Please enter a city name');
+      return;
+    }
 
-  const weather = await res.json()
+    try {
+      const response = await fetch(`/api/v1/weather/${encodeURIComponent(cityName)}`);
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to fetch weather data');
+      }
 
-  if (!weather.error) {
-    renderCard(weather.data)
-  } else {
-    showError(weather)
+      const weatherData = await response.json();
+      displayWeather(weatherData.data);
+      addToRecentSearches(cityName);
+      clearError();
+    } catch (error) {
+      showError(error.message);
+    }
   }
-})
 
-const renderCard = (data) => {
-  const { name, dt, coord, main, weather } = data
+  function displayWeather(data) {
+    const { name, dt, main, weather, coord } = data;
+    const date = formatDate(dt);
 
-  const currentDate = new Date(dt * 1000)
-  const date = `${
-    months[currentDate.getMonth()] +
-    " " +
-    currentDate.getDate() +
-    ", " +
-    currentDate.getFullYear()
-  }`
-
-  let template = `
-    <div class="card">
-                <div
-                  class="cart-title d-flex flex-row justify-content-between container-fluid"
-                >
-                  <h3>${name}</h3>
-                  <p><i class="fas fa-calendar-day"></i> Date: ${date}</p>
-                </div>
-                <div class="card-body custom-grid">
-                  <div class="weather">
-                    <h4>
-                      <img src="${iconUrl}${weather[0].icon}@2x.png" />
-                      ${weather[0].main}
-                    </h4>
-                  </div>
-                  <div class="cord">
-                    <h4>
-                      <i class="fas fa-map-marker-alt text-primary"></i
-                      >&nbsp;Co-Ordinates
-                    </h4>
-                    <p><strong>long:</strong> ${
-                      coord.lon
-                    } <strong>lat:</strong> ${coord.lat}</p>
-                  </div>
-                  <div class="main">
-                    <h4><i class="fas fa-temperature-low"></i>&nbsp;Temp</h4>
-                    <p><strong>Current: </strong>${parseFloat(
-                      main.temp - 273.15,
-                    ).toPrecision(4)}&deg; C</p>
-                    <p><strong>Feels like: </strong>${parseFloat(
-                      main.feels_like - 273.15,
-                    ).toPrecision(4)}&deg; C</p>
-                  </div>
-                </div>
-              </div>
-              `
-  city.value = ""
-  renderDetails.innerHTML = template
-}
-
-const showError = (err) => {
-  city.value = ""
-  renderDetails.innerHTML = ""
-
-  let temp = `
-        <div class="card card-body error text-center">
-            <h2>${err.message}. Please try again later.</h2>
+    weatherContainer.innerHTML = `
+      <div class="weather-card">
+        <div class="weather-header">
+          <h2>${name}</h2>
+          <p class="weather-date"><i class="fas fa-calendar-alt"></i> ${date}</p>
         </div>
-    `
-  renderDetails.innerHTML = temp
+        
+        <div class="weather-main">
+          <div class="weather-condition">
+            <img src="${ICON_URL}${weather[0].icon}@2x.png" alt="${weather[0].description}">
+            <span>${weather[0].main}</span>
+            <p class="weather-description">${weather[0].description}</p>
+          </div>
+          
+          <div class="weather-temp">
+            <p><i class="fas fa-temperature-high"></i> ${kelvinToCelsius(main.temp)}°C</p>
+            <p>Feels like: ${kelvinToCelsius(main.feels_like)}°C</p>
+            <p>Humidity: ${main.humidity}%</p>
+          </div>
+        </div>
+        
+        <div class="weather-details">
+          <div class="detail-item">
+            <h4><i class="fas fa-map-marker-alt"></i> Coordinates</h4>
+            <p>Lat: ${coord.lat.toFixed(2)}</p>
+            <p>Lon: ${coord.lon.toFixed(2)}</p>
+          </div>
+          
+          <div class="detail-item">
+            <h4><i class="fas fa-wind"></i> Wind</h4>
+            <p>Pressure: ${main.pressure} hPa</p>
+          </div>
+        </div>
+      </div>
+    `;
+    
+    cityInput.value = '';
+  }
 
-  setTimeout(() => {
-    window.location.reload()
-  }, 5000)
-}
+  function showError(message) {
+    errorContainer.hidden = false;
+    errorContainer.innerHTML = `
+      <div class="error-message">
+        <i class="fas fa-exclamation-triangle"></i>
+        <p>${message}</p>
+      </div>
+    `;
+    
+    weatherContainer.innerHTML = `
+      <div class="weather-placeholder">
+        <i class="fas fa-exclamation-circle"></i>
+        <p>Could not load weather data</p>
+      </div>
+    `;
+  }
+
+  function clearError() {
+    errorContainer.hidden = true;
+    errorContainer.innerHTML = '';
+  }
+
+  function formatDate(timestamp) {
+    const date = new Date(timestamp * 1000);
+    return `${MONTHS[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()} ${date.getHours()}:${date.getMinutes().toString().padStart(2, '0')}`;
+  }
+
+  function kelvinToCelsius(kelvin) {
+    return (kelvin - 273.15).toFixed(1);
+  }
+
+  function addToRecentSearches(cityName) {
+    let recentSearches = JSON.parse(localStorage.getItem(RECENT_SEARCHES_KEY)) || [];
+    
+    // Remove if already exists
+    recentSearches = recentSearches.filter(city => city.toLowerCase() !== cityName.toLowerCase());
+    
+    // Add to beginning
+    recentSearches.unshift(cityName);
+    
+    // Keep only most recent searches
+    if (recentSearches.length > MAX_RECENT_SEARCHES) {
+      recentSearches.pop();
+    }
+    
+    localStorage.setItem(RECENT_SEARCHES_KEY, JSON.stringify(recentSearches));
+    updateRecentSearchesUI(recentSearches);
+  }
+
+  function updateRecentSearchesUI(searches) {
+    if (searches.length > 0) {
+      document.querySelector('.recent-searches').hidden = false;
+      recentList.innerHTML = searches.map(city => `
+        <li>
+          <button class="recent-search-btn" data-city="${city}">
+            <i class="fas fa-search"></i> ${city}
+          </button>
+        </li>
+      `).join('');
+      
+      // Add event listeners to recent search buttons
+      document.querySelectorAll('.recent-search-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          cityInput.value = e.currentTarget.dataset.city;
+          weatherForm.dispatchEvent(new Event('submit'));
+        });
+      });
+    }
+  }
+
+  // Initialize recent searches
+  const recentSearches = JSON.parse(localStorage.getItem(RECENT_SEARCHES_KEY)) || [];
+  updateRecentSearchesUI(recentSearches);
+});

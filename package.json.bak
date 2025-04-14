@@ -1,0 +1,30 @@
+{
+  "name": "weather-node-js",
+  "version": "1.0.0",
+  "description": "A simple Node.js weather application fetching data from an external API.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "keywords": [
+    "weather",
+    "node.js",
+    "api",
+    "express"
+  ],
+  "author": "Your Name",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "1.6.2",
+    "dotenv": "16.3.1",
+    "express": "4.18.2",
+    "express-rate-limit": "7.1.3",
+    "helmet": "7.1.0",
+    "nodemon": "3.1.0"
+  },
+  "devDependencies": {},
+  "resolutions": {
+    "semver": "7.5.2"
+  }
+}

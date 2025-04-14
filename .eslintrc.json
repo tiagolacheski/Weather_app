@@ -1,0 +1,62 @@
+{
+    "extends": [
+      "eslint:recommended",
+      "plugin:node/recommended",
+      "prettier"
+    ],
+    "plugins": ["prettier"],
+    "env": {
+      "node": true,
+      "es2021": true,
+      "jest": true
+    },
+    "parserOptions": {
+      "ecmaVersion": 2021,
+      "sourceType": "module"
+    },
+    "rules": {
+      "prettier/prettier": "warn",
+      "no-console": ["warn", { "allow": ["warn", "error"] }],
+      "no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
+      "node/no-unsupported-features/es-syntax": [
+        "error",
+        { "ignores": ["modules"] }
+      ],
+      "node/no-missing-require": [
+        "error",
+        {
+          "allowModules": [],
+          "resolvePaths": ["./src", "./test"],
+          "tryExtensions": [".js", ".json"]
+        }
+      ],
+      "node/no-extraneous-require": ["error", { "allowModules": [] }],
+      "node/no-extraneous-import": "error",
+      "require-await": "warn",
+      "no-return-await": "warn",
+      "consistent-return": "warn",
+      "arrow-body-style": ["warn", "as-needed"],
+      "prefer-const": "error",
+      "no-multiple-empty-lines": ["warn", { "max": 1 }],
+      "padding-line-between-statements": [
+        "warn",
+        { "blankLine": "always", "prev": "*", "next": "return" },
+        { "blankLine": "always", "prev": ["const", "let", "var"], "next": "*" },
+        { "blankLine": "any", "prev": ["const", "let", "var"], "next": ["const", "let", "var"] }
+      ]
+    },
+    "overrides": [
+        {
+        "files": ["**/*.test.js", "**/*.spec.js"],
+        "rules": {
+          "no-unused-expressions": "off",
+          "node/no-unpublished-require": "off"
+        }
+        }
+    ],
+    "settings": {
+      "node": {
+        "tryExtensions": [".js", ".json", ".node"]
+        }
+    }
+    }
